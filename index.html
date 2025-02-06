@@ -67,10 +67,14 @@
         <div id="result" class="neutral">Total Votes: 0 (No Majority)</div>
     </div>
     
+    <div id="footer">
+        Created by <a href="https://www.marcusganley.com/about" target="_blank">Marcus Ganley</a> with ChatGPT 4o
+    </div>
+    
     <script>
         const senators = [
             { name: "Labor", votes: 25 },
-            { name: "Liberal", votes: 24 },
+            { name: "Liberal", votes: 23 },
             { name: "National", votes: 6 },
             { name: "Greens", votes: 11 },
             { name: "One Nation", votes: 2 },
@@ -121,6 +125,9 @@
             } else if (noVotes >= 39) {
                 resultText += "(Majority Opposed)";
                 resultElement.className = "opposed";
+            } else if (yesVotes === noVotes) {
+                resultText += "(Lack of Majority, motion fails)";
+                resultElement.className = "neutral";
             } else {
                 resultText += "(No Majority)";
                 resultElement.className = "neutral";
