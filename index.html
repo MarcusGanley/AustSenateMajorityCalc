@@ -62,111 +62,74 @@
         <h2>Australian Senate Majority Calculator</h2>
         <p>Select how each party and senator is voting:</p>
     
-        <div class="party" data-votes="25">Labor: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="25">Yes</option>
-                <option value="-25">No</option>
-            </select>
-        </div>
-    
-        <div class="party" data-votes="23">Liberal: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="23">Yes</option>
-                <option value="-23">No</option>
-            </select>
-        </div>
-    
-        <div class="party" data-votes="6">National: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="6">Yes</option>
-                <option value="-6">No</option>
-            </select>
-        </div>
-    
-        <div class="party" data-votes="11">Greens: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="11">Yes</option>
-                <option value="-11">No</option>
-            </select>
-        </div>
-    
-        <div class="party" data-votes="2">One Nation: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="2">Yes</option>
-                <option value="-2">No</option>
-            </select>
-        </div>
-    
-        <div class="party" data-votes="1">Lambie Network: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="1">Yes</option>
-                <option value="-1">No</option>
-            </select>
-        </div>
-    
-        <div class="party" data-votes="1">United Australia: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="1">Yes</option>
-                <option value="-1">No</option>
-            </select>
-        </div>
-    
-        <div class="party" data-votes="1">David Pocock: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="1">Yes</option>
-                <option value="-1">No</option>
-            </select>
-        </div>
-    
-        <div class="party" data-votes="1">Gerard Rennick: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="1">Yes</option>
-                <option value="-1">No</option>
-            </select>
-        </div>
-
-        <div class="party" data-votes="1">Tammy Tyrrell: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="1">Yes</option>
-                <option value="-1">No</option>
-            </select>
-        </div>
-
-        <div class="party" data-votes="1">Lidia Thorpe: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="1">Yes</option>
-                <option value="-1">No</option>
-            </select>
-        </div>
-
-        <div class="party" data-votes="1">Fatima Payman: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="1">Yes</option>
-                <option value="-1">No</option>
-            </select>
-        </div>
-
-        <div class="party" data-votes="1">David Van: 
-            <select onchange="calculateMajority()">
-                <option value="0">Abstain</option>
-                <option value="1">Yes</option>
-                <option value="-1">No</option>
-            </select>
-        </div>
+        <div id="senators"></div>
     
         <div id="result" class="neutral">Total Votes: 0 (No Majority)</div>
     </div>
+    
+    <script>
+        const senators = [
+            { name: "Labor", votes: 25 },
+            { name: "Liberal", votes: 24 },
+            { name: "National", votes: 6 },
+            { name: "Greens", votes: 11 },
+            { name: "One Nation", votes: 2 },
+            { name: "Lambie Network", votes: 1 },
+            { name: "United Australia", votes: 1 },
+            { name: "David Pocock", votes: 1 },
+            { name: "Gerard Rennick", votes: 1 },
+            { name: "Tammy Tyrrell", votes: 1 },
+            { name: "Lidia Thorpe", votes: 1 },
+            { name: "Fatima Payman", votes: 1 },
+            { name: "David Van", votes: 1 }
+        ];
+        
+        function generateSenators() {
+            const container = document.getElementById("senators");
+            senators.forEach(senator => {
+                const div = document.createElement("div");
+                div.className = "party";
+                div.innerHTML = `
+                    ${senator.name}: 
+                    <select onchange="calculateMajority()">
+                        <option value="0">Abstain</option>
+                        <option value="${senator.votes}">Yes</option>
+                        <option value="-${senator.votes}">No</option>
+                    </select>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        function calculateMajority() {
+            let yesVotes = 0;
+            let noVotes = 0;
+            const selects = document.querySelectorAll(".party select");
+            
+            selects.forEach(select => {
+                const vote = parseInt(select.value);
+                if (vote > 0) yesVotes += vote;
+                else if (vote < 0) noVotes += Math.abs(vote);
+            });
+            
+            const resultElement = document.getElementById("result");
+            let resultText = `Yes Votes: ${yesVotes}, No Votes: ${noVotes} `;
+            
+            if (yesVotes >= 39) {
+                resultText += "(Majority Reached)";
+                resultElement.className = "majority";
+            } else if (noVotes >= 39) {
+                resultText += "(Majority Opposed)";
+                resultElement.className = "opposed";
+            } else {
+                resultText += "(No Majority)";
+                resultElement.className = "neutral";
+            }
+            
+            resultElement.innerText = resultText;
+        }
+        
+        document.addEventListener("DOMContentLoaded", generateSenators);
+    </script>
 </body>
 </html>
