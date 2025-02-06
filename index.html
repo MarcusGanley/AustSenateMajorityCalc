@@ -126,44 +126,47 @@
             </select>
         </div>
     
+        <div class="party" data-votes="1">Gerard Rennick: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="1">Yes</option>
+                <option value="-1">No</option>
+            </select>
+        </div>
+
+        <div class="party" data-votes="1">Tammy Tyrrell: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="1">Yes</option>
+                <option value="-1">No</option>
+            </select>
+        </div>
+
+        <div class="party" data-votes="1">Lidia Thorpe: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="1">Yes</option>
+                <option value="-1">No</option>
+            </select>
+        </div>
+
+        <div class="party" data-votes="1">Fatima Payman: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="1">Yes</option>
+                <option value="-1">No</option>
+            </select>
+        </div>
+
+        <div class="party" data-votes="1">David Van: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="1">Yes</option>
+                <option value="-1">No</option>
+            </select>
+        </div>
+    
         <div id="result" class="neutral">Total Votes: 0 (No Majority)</div>
     </div>
-    
-    <div id="footer">
-        Created by <a href="https://www.marcusganley.com/about" target="_blank">Marcus Ganley</a> with ChatGPT 4o
-    </div>
-    
-    <script>
-        function calculateMajority() {
-            let yesVotes = 0;
-            let noVotes = 0;
-            const parties = document.querySelectorAll('.party select');
-            
-            parties.forEach(select => {
-                let vote = parseInt(select.value);
-                if (vote > 0) {
-                    yesVotes += vote;
-                } else if (vote < 0) {
-                    noVotes += Math.abs(vote);
-                }
-            });
-            
-            let resultElement = document.getElementById('result');
-            let resultText = `Yes Votes: ${yesVotes}, No Votes: ${noVotes} `;
-            
-            if (yesVotes >= 39) {
-                resultText += "(Majority Reached)";
-                resultElement.className = "majority";
-            } else if (noVotes >= 39) {
-                resultText += "(Majority Opposed)";
-                resultElement.className = "opposed";
-            } else {
-                resultText += "(No Majority)";
-                resultElement.className = "neutral";
-            }
-            
-            resultElement.innerText = resultText;
-        }
-    </script>
 </body>
 </html>
