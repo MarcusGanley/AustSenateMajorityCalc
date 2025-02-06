@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Australian Senate Majority Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 100%;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        .party {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        select {
+            font-size: 16px;
+            padding: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .majority {
+            background-color: green;
+            color: white;
+        }
+        .opposed {
+            background-color: red;
+            color: white;
+        }
+        .neutral {
+            background-color: gray;
+            color: white;
+        }
+        #footer {
+            margin-top: 30px;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Australian Senate Majority Calculator</h2>
+        <p>Select how each party and senator is voting:</p>
+    
+        <div class="party" data-votes="25">Labor: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="25">Yes</option>
+                <option value="-25">No</option>
+            </select>
+        </div>
+    
+        <div class="party" data-votes="23">Liberal: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="23">Yes</option>
+                <option value="-23">No</option>
+            </select>
+        </div>
+    
+        <div class="party" data-votes="6">National: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="6">Yes</option>
+                <option value="-6">No</option>
+            </select>
+        </div>
+    
+        <div class="party" data-votes="11">Greens: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="11">Yes</option>
+                <option value="-11">No</option>
+            </select>
+        </div>
+    
+        <div class="party" data-votes="2">One Nation: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="2">Yes</option>
+                <option value="-2">No</option>
+            </select>
+        </div>
+    
+        <div class="party" data-votes="1">Lambie Network: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="1">Yes</option>
+                <option value="-1">No</option>
+            </select>
+        </div>
+    
+        <div class="party" data-votes="1">United Australia: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="1">Yes</option>
+                <option value="-1">No</option>
+            </select>
+        </div>
+    
+        <div class="party" data-votes="1">David Pocock: 
+            <select onchange="calculateMajority()">
+                <option value="0">Abstain</option>
+                <option value="1">Yes</option>
+                <option value="-1">No</option>
+            </select>
+        </div>
+    
+        <div id="result" class="neutral">Total Votes: 0 (No Majority)</div>
+    </div>
+    
+    <div id="footer">
+        Created by <a href="https://www.marcusganley.com/about" target="_blank">Marcus Ganley</a> with ChatGPT 4o
+    </div>
+    
+    <script>
+        function calculateMajority() {
+            let yesVotes = 0;
+            let noVotes = 0;
+            const parties = document.querySelectorAll('.party select');
+            
+            parties.forEach(select => {
+                let vote = parseInt(select.value);
+                if (vote > 0) {
+                    yesVotes += vote;
+                } else if (vote < 0) {
+                    noVotes += Math.abs(vote);
+                }
+            });
+            
+            let resultElement = document.getElementById('result');
+            let resultText = `Yes Votes: ${yesVotes}, No Votes: ${noVotes} `;
+            
+            if (yesVotes >= 39) {
+                resultText += "(Majority Reached)";
+                resultElement.className = "majority";
+            } else if (noVotes >= 39) {
+                resultText += "(Majority Opposed)";
+                resultElement.className = "opposed";
+            } else {
+                resultText += "(No Majority)";
+                resultElement.className = "neutral";
+            }
+            
+            resultElement.innerText = resultText;
+        }
+    </script>
+</body>
+</html>
