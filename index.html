@@ -119,17 +119,14 @@
             const resultElement = document.getElementById("result");
             let resultText = `Yes Votes: ${yesVotes}, No Votes: ${noVotes} `;
             
-            if (yesVotes >= 39) {
-                resultText += "(Majority Reached)";
+            if (yesVotes > noVotes) {
+                resultText += "(Motion Passes)";
                 resultElement.className = "majority";
-            } else if (noVotes >= 39) {
-                resultText += "(Majority Opposed)";
+            } else if (noVotes > yesVotes) {
+                resultText += "(Motion Fails)";
                 resultElement.className = "opposed";
-            } else if (yesVotes === noVotes) {
-                resultText += "(Lack of Majority, motion fails)";
-                resultElement.className = "neutral";
             } else {
-                resultText += "(No Majority)";
+                resultText += "(Tied - Motion Fails)";
                 resultElement.className = "neutral";
             }
             
